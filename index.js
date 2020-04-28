@@ -15,6 +15,7 @@ console.log("mister");
 unleash
     .start({
         databaseUrl: 'postgres://postgres:unleash@db/postgres',
+        adminAuthentication: 'custom',
         enableLegacyRoutes: false,
         enableRequestLogger: true,
         preRouterHook: myCustomAdminAuth,
