@@ -2,23 +2,14 @@
 
 const unleash = require('unleash-server');
 
-const myCustomAdminAuth = require('./auth-hook');
-
-/* default
-let options = {};
-
-unleash.start(options);
-*/
-
-console.log("mister");
+const myCustomAuth = require('./auth-hook');
 
 unleash
     .start({
         databaseUrl: 'postgres://postgres:unleash@db/postgres',
         adminAuthentication: 'custom',
         enableLegacyRoutes: false,
-        enableRequestLogger: true,
-        preRouterHook: myCustomAdminAuth,
+        preRouterHook: myCustomAuth,
     })
     .then(unleash => {
         console.log(

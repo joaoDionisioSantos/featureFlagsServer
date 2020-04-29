@@ -5,24 +5,12 @@
 const auth = require('basic-auth');
 const { User } = require('unleash-server');
 const sharedSecret = '12312Random';
+const user = 'admin';
+const password = 'admin';
 
 function basicAuthentication(app) {
-    debugger;
-    console.log("tony");
-
-    app.use('/api/', (req, res, next) => {
-        debugger;
-        console.log("joao");
-        if (req.header('Authorization') !== sharedSecret) {
-            res.sendStatus(401);
-        } else {
-            next();
-        }
-    });
 
     app.use('/api/client', (req, res, next) => {
-    debugger;
-        console.log("fabio");
         if (req.header('Authorization') === sharedSecret) {
             next();
         } else {
@@ -30,15 +18,16 @@ function basicAuthentication(app) {
         }
     });
 
-    /*
     app.use('/api/admin/', (req, res, next) => {
         const credentials = auth(req);
 
         if (credentials) {
-            // you will need to do some verification of credentials here.
-            const user = new User({ email: `${credentials.name}@domain.com` });
-            req.user = user;
-            return next();
+            // TODO better verification of credentials here.
+            if (credentials.name === user && credentials.pass === password) {
+                const user = new User({ email: `${credentials.name}@domain.com` });
+                req.user = user;
+                return next();
+            }
         }
 
         return res
@@ -46,7 +35,6 @@ function basicAuthentication(app) {
             .set({ 'WWW-Authenticate': 'Basic realm="example"' })
             .end('access denied');
     });
-    */
 
     app.use((req, res, next) => {
         // Updates active sessions every hour
